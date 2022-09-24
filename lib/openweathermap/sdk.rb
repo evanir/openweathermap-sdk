@@ -1,24 +1,29 @@
 # frozen_string_literal: true
 
 require_relative "sdk/version"
-
+# Module Openweathermap
 module Openweathermap
+  # Module Sdk
+  # Conjunto de comandos para consulta de temperatura no OpenWeatherMap
   module Sdk
     require "dotenv"
     Dotenv.load(".env", ".env.test")
     class Error < StandardError; end
 
+    # Classe Cliente
     class Client
       attr_reader :error
-      def initialize(city_name=nil)
-        @open_weather_map_key = ENV["OPENWEATHERMAP_KEY"]
+
+      def initialize(city_name = nil)
+        @open_weather_map_key = ENV.fetch("OPENWEATHERMAP_KEY", nil)
         @city_name = city_name
         valid?
       end
 
       def valid?
-        return false unless have_a_key?
-        return false unless have_a_city_name?
+        return false unless key_present?
+        return false unless city_name_present?
+
         true
       end
 
@@ -28,15 +33,14 @@ module Openweathermap
 
       private
 
-      def have_a_key?
-        puts "chave = #{@open_weather_map_key}"
+      def key_present?
         return true unless @open_weather_map_key.nil?
 
         @error = ArgumentError.new("Preencha o valor de OPENWEATHERMAP_KEY no arquivo .env para continuar!")
         false
       end
 
-      def have_a_city_name?
+      def city_name_present?
         return true unless @city_name.nil?
 
         @error = ArgumentError.new("Informe o nome da cidade!")
