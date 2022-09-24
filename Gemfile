@@ -12,3 +12,7 @@ gem "minitest", "~> 5.0"
 gem "rubocop", "~> 1.21"
 
 gem "dotenv"
+
+gem "net-http"
+
+gem "json"

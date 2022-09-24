@@ -5,7 +5,7 @@ require "test_helper"
 module Openweathermap
   class TestSdk < Minitest::Test
     def setup
-      @client = Openweathermap::Sdk::Client.new("Sao Jose do Rio Preto")
+      @client = Openweathermap::Sdk::Client.new({ city_name: "Sao Jose do Rio Preto" })
     end
 
     def test_that_it_has_a_version_number
@@ -19,7 +19,7 @@ module Openweathermap
     def test_that_it_got_a_raise_if_not_have_key
       old_env = ENV.to_hash
       ENV.delete("OPENWEATHERMAP_KEY")
-      @new_client = ::Openweathermap::Sdk::Client.new("Campinas")
+      @new_client = ::Openweathermap::Sdk::Client.new({ city_name: "Campinas" })
       ENV.replace old_env
       assert_equal "Preencha o valor de OPENWEATHERMAP_KEY no arquivo .env para continuar!", @new_client.error.message
     end

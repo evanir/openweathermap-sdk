@@ -10,14 +10,29 @@ module Openweathermap
     Dotenv.load(".env", ".env.test")
     class Error < StandardError; end
 
+    URL_BASE = "https://api.openweathermap.org/data/2.5/forecast"
     # Classe Cliente
     class Client
-      attr_reader :error
+      attr_reader :error, :json_response_body
 
-      def initialize(city_name = nil)
+      def initialize(options = {})
         @open_weather_map_key = ENV.fetch("OPENWEATHERMAP_KEY", nil)
-        @city_name = city_name
-        valid?
+        @city_name = options.fetch(:city_name, nil)
+        @lang = options.fetch(:lang, "pt_br")
+        perform_request
+      end
+
+      def uri
+        URI("#{URL_BASE}?q=#{@city_name}&lang=#{@lang}&appid=#{@open_weather_map_key}&units=metric")
+      end
+
+      require "net/http"
+      require "json"
+      def perform_request
+        return nil unless valid?
+
+        response = Net::HTTP.get_response(uri)
+        @json_response_body = JSON.parse(response.body) if response.is_a?(Net::HTTPSuccess)
       end
 
       def valid?
