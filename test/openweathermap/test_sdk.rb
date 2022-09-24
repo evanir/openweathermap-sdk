@@ -25,7 +25,7 @@ class Openweathermap::TestSdk < Minitest::Test
 
   def test_that_it_got_a_raise_if_not_city_name_param
     @new_client = ::Openweathermap::Sdk::Client.new
-    assert_equal "Informe uma cidade !!!",  @new_client.error.message
+    assert_equal "Informe o nome da cidade!",  @new_client.error.message
   end
 
 end
