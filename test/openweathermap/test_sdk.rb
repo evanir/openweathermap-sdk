@@ -19,8 +19,8 @@ class Openweathermap::TestSdk < Minitest::Test
     old_env = ENV.to_hash
     ENV.delete("OPENWEATHERMAP_KEY")
     @new_client = ::Openweathermap::Sdk::Client.new('Campinas')
-    assert_equal "Preencha o valor de OPENWEATHERMAP_KEY no arquivo .env para continuar!",  @new_client.error.message
     ENV.replace old_env
+    assert_equal "Preencha o valor de OPENWEATHERMAP_KEY no arquivo .env para continuar!",  @new_client.error.message
   end
 
   def test_that_it_got_a_raise_if_not_city_name_param

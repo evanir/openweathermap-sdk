@@ -4,8 +4,8 @@ require_relative "sdk/version"
 
 module Openweathermap
   module Sdk
-    require "dotenv/load"
-    OPENWEATHERMAP_KEY =
+    require "dotenv"
+    Dotenv.load(".env", ".env.test")
     class Error < StandardError; end
 
     class Client
@@ -29,6 +29,7 @@ module Openweathermap
       private
 
       def have_a_key?
+        puts "chave = #{@open_weather_map_key}"
         return true unless @open_weather_map_key.nil?
 
         @error = ArgumentError.new("Preencha o valor de OPENWEATHERMAP_KEY no arquivo .env para continuar!")
