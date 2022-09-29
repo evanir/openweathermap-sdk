@@ -1,6 +1,7 @@
 # Openweathermap::Sdk
+Bem-vindo !
+Esta gem é para a resolucao de um desafio técnico proposto pela Caiena. ** Não a use para fins comerciais **
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/openweathermap/sdk`. To experiment with that code, run `bin/console` for an interactive prompt.
 
 TODO: Delete this and the text above, and describe your gem
 
