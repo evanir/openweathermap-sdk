@@ -13,7 +13,7 @@ module Openweathermap
     URL_BASE = "https://api.openweathermap.org/data/2.5"
     # Classe Cliente
     class Client
-      attr_reader :error, :forecast_response, :weather_response
+      attr_reader :error, :forecast_response, :weather_response, :response
 
       def initialize(options = {})
         @open_weather_map_key = ENV.fetch("OPENWEATHERMAP_KEY", nil)
@@ -45,7 +45,7 @@ module Openweathermap
         if response.is_a?(Net::HTTPSuccess)
           @forecast_response = JSON.parse(response.body)
         else
-          @error = StandardError.new("Falha ao executar request de previsões para 5 dias!")
+          @error = StandardError.new(response.body["message"])
         end
       end
 
@@ -53,10 +53,12 @@ module Openweathermap
         return nil unless valid?
 
         response = Net::HTTP.get_response(weather_uri)
+        response_json = JSON.parse(response.body)
+
         if response.is_a?(Net::HTTPSuccess)
-          @weather_response = JSON.parse(response.body)
+          @weather_response = response_json
         else
-          @error = StandardError.new("Falha ao executar request de temperatura atual!")
+          @error = StandardError.new(response_json["message"])
         end
       end
 
